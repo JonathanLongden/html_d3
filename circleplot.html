@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    /* .space {
+      position: absolute;
+    }
+
+    .space div {
+      position: absolute;
+      top: 0;
+      left: 20px;
+    } */
+    </style>
+    <body>
+      <div style="display: inline-block; 
+      width: 20px; 
+      height: 75px; 
+      background-color: teal;"></div>
+      <!-- <h1>Hello</h1> -->
+      <script type="text/javascript">
+      //python -m SimpleHTTPServer 8000
+      var chanecolor = function(){
+        //Code to do something here
+
+      };
+      var dataset = [];
+      for(var i = 0; i< 9; i++){
+        var newNumberOne = (Math.random() + 1) * 100;
+        var newNumberTwo = (Math.random() + 1) * 50;
+        
+        dataset.push([newNumberOne,newNumberTwo]);
+      }
+      console.log(dataset);
+      var w = 500;
+      var h = 100;
+      var svg = d3.select("body").append("svg").attr("width", w ).attr("height", h );
+          svg.selectAll("circle")
+          .data(dataset)
+          .enter()
+          .append("circle")
+          .attr("cx",function(d){
+            return d[0];
+          })
+          .attr("cy",function(d){
+            return d[1];
+          })
+          .attr("r",function(d){
+            return Math.sqrt(h-d[1]);
+          });
+
+    
+          
+      </script>
+
+    </body>
+</html>

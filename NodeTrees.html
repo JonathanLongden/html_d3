@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <style>
+
+	.node circle {
+		fill: #fff;
+		stroke: steelblue;
+		stroke-width: 3px;
+	}
+
+	.node text {
+		font: 12px sans-serif;
+	}
+
+	.link {
+		fill: none;
+		stroke: #ccc;
+		stroke-width: 2px;
+	}
+		
+	</style>
+    <body>
+
+      <!-- <h1>Hello</h1> -->
+      <script type="text/javascript">
+      //python -m SimpleHTTPServer 8000
+
+	var treeData =
+	{
+		"name": "Rocker Monitoring",
+		"children": [
+		{ 
+		   "name": "Quarterly GW Chem/Field",
+			"children": [
+				{"name":"1998Q2-CRK"},
+				{"name":"1998Q4-CRK"},
+				{"name":"1999Q1-CRK"},
+				{"name":"1999Q2-CRK"},
+				{"name":"1999Q3-CRK"},
+				{"name":"2002Q1-CRK"},
+				{"name":"2002Q2-CRK"},
+				{"name":"2002Q3-CRK"},
+				{"name":"2002Q4-CRK"},
+				{"name":"2003Q2-CRK"},
+				{"name":"2003Q1-CRK"},
+				{"name":"2003Q3-CRK"},
+				{"name":"2003Q4-CRK"},
+				{"name":"2004Q1-CRK"},
+				{"name":"1998Q1"},
+				{"name":"1998Q2"},
+				{"name":"1998Q3"},
+				{"name":"1998Q4"},
+				{"name":"1999Q1"},
+				{"name":"1999Q2"},
+				{"name":"1999Q3"},
+				{"name":"1999Q4"},
+				{"name":"2000Q1"},
+				{"name":"2000Q2"},
+				{"name":"2000Q3"},
+				{"name":"2000Q4"},
+				{"name":"2001Q1"},
+				{"name":"2001Q2"},
+				{"name":"2001Q3"},
+				{"name":"2001Q4"},
+				{"name":"2002Q1"},
+				{"name":"2002Q2"},
+				{"name":"2002Q3"},
+				{"name":"2002Q4"},
+				{"name":"2003Q1"},
+				{"name":"2003Q2"},
+				{"name":"2003Q3"},
+				{"name":"2003Q4"},
+				{"name":"2004Q1"},
+				{"name":"2004Q2"},
+				{"name":"2004Q3"},
+				{"name":"2004Q4"},
+				{"name":"2005Q1"},
+				{"name":"2005Q2"},
+				{"name":"2005Q3"},
+				{"name":"2005Q4"},
+				{"name":"2006Q1"},
+				{"name":"2006Q2"},
+				{"name":"2006Q2"},
+				{"name":"2006Q3"},
+				{"name":"2006Q4"},
+				{"name":"2007Q1"},
+				{"name":"2007Q2"},
+				{"name":"2007Q3"},
+				{"name":"2007Q4"},
+				{"name":"2008Q1"},
+				{"name":"2008Q2"},
+				{"name":"2008Q3"},
+				{"name":"2008Q4"},
+				{"name":"2009Q1"},
+				{"name":"2009Q2"},
+				{"name":"2009Q3"},
+				{"name":"2009Q4"},
+				{"name":"2010Q1"},
+				{"name":"2010Q2"},
+				{"name":"2010Q3"},
+				{"name":"2010Q4"},
+				{"name":"2011Q1"},
+				{"name":"2011Q2"},
+				{"name":"2011Q3"},
+				{"name":"2011Q4"},
+				{"name":"2012Q1"},
+				{"name":"2012Q2"},
+				{"name":"2012Q3"},
+				{"name":"2012Q4"},
+				{"name":"2013Q1"},
+				{"name":"2013Q2"},
+				{"name":"2013Q3"},
+				{"name":"2013Q4"},
+				{"name":"2014Q1"},
+				{"name":"2014Q2"},
+				{"name":"2014Q3"},
+				{"name":"2014Q4"},
+				{"name":"2015Q1"},
+				{"name":"2015Q2"},
+				{"name":"2015Q3"},
+				{"name":"2015Q4"},
+				{"name":"2016Q1"},
+				{"name":"2016Q2"},
+				{"name":"2016Q3"},
+				{"name":"2000Q1-CRK"},
+				{"name":"2000Q2-CRK"},
+				{"name":"2000Q3-CRK"},
+				{"name":"2000Q4-CRK"},
+				{"name":"2001Q1-CRK"},
+				{"name":"2001Q3-CRK"},
+				{"name":"2001Q4-CRK"},
+				{"name":"2004Q2-CRK"},
+				{"name":"2004Q3-CRK"},
+				{"name":"2004Q4-CRK"},
+				{"name":"2005Q1-CRK"},
+				{"name":"2005Q2-CRK"},
+				{"name":"2005Q3-CRK"},
+				{"name":"2005Q4-CRK"},
+				{"name":"2006Q1-CRK"},
+				{"name":"2006Q2-CRK"},
+				{"name":"2006Q3-CRK"},
+				{"name":"2006Q4-CRK"},
+				{"name":"2007Q1-CRK"},
+				{"name":"2007Q2-CRK"},
+				{"name":"2007Q3-CRK"},
+				{"name":"2007Q4-CRK"},
+				{"name":"2008Q1-CRK"},
+				{"name":"2008Q2-CRK"},
+				{"name":"2008Q3-CRK"},
+				{"name":"2008Q4-CRK"},
+				{"name":"2009Q1-CRK"},
+				{"name":"2009Q2-CRK"},
+				{"name":"2009Q3-CRK"},
+				{"name":"2009Q4-CRK"},
+				{"name":"2010Q1-CRK"},
+				{"name":"2010Q3-CRK"},
+				{"name":"2010Q4-CRK"},
+				{"name":"2011Q1-CRK"},
+				{"name":"2011Q2-CRK"},
+				{"name":"2011Q3-CRK"},
+				{"name":"2011Q4-CRK"},
+				{"name":"2012Q1-CRK"},
+				{"name":"2012Q2-CRK"},
+				{"name":"2012Q3-CRK"},
+				{"name":"2012Q4-CRK"},
+				{"name":"2013Q1-CRK"},
+				{"name":"2013Q2-CRK"},
+				{"name":"2013Q3-CRK"},
+				{"name":"2013Q4-CRK"},
+				{"name":"2014Q1-CRK"},
+				{"name":"2014Q2-CRK"},
+				{"name":"2014Q3-CRK"},
+				{"name":"2014Q4-CRK"},
+				{"name":"2015Q1-CRK"},
+				{"name":"2015Q2-CRK"},
+				{"name":"2015Q3-CRK"},
+				{"name":"2015Q4-CRK"},
+				{"name":"2016Q1-CRK"},
+				{"name":"2016Q2-CRK"},
+				{"name":"2016Q4"},
+				{"name":"2017Q1"},
+				{"name":"2017Q2"},
+				{"name":"2017Q3"},
+				{"name":"2017Q4"},
+				{"name":"2016Q3-CRK"},
+				{"name":"2016Q4-CRK"},
+				{"name":"2017Q1-CRK"},
+				{"name":"2017Q2-CRK"},
+				{"name":"2017Q3-CRK"},
+				{"name":"2017Q4-CRK"},
+				{"name":"2010Q2-CRK"},
+				{"name":"2018Q1-CRK"},
+				{"name":"2018Q1"}
+			]
+		},
+		{ "name": "Annual Surface Water Monitoring" ,
+			"children": [
+				{"name":"Annual SW Monitoring As-Fld data 2011"},
+				{"name":"Annual SW Monitoring As-Fld data 2014"},
+				{"name":"Annual SW Monitoring As-Fld data 2015"},
+				{"name":"Annual SW Monitoring As-Fld data 2016"},
+				{"name":"Annual SW Monitoring As-Fld data 2017"},
+				{"name":"Annual SW Monitoring As-Fld data 2018"}
+			]
+		},
+		{ "name": "Supplemental Monitoring" ,
+			"children": [
+				{"name":"GW Radon 2012-02-14"},
+				{"name":"SW Nutrients 2015-02-17"},
+				{"name":"SW-GW Radon+   2016-02-04"},
+				{"name":"Supplemental data for CSM 2015-08-14 "},
+				{"name":"GW Nutrients+ 2014-05-13"},
+				{"name":"GW As Speciation 2014-11-18"},
+				{"name":"GW Suplmntl-B6"},
+				{"name":"SW As Speciation 2017-06-20 "},
+				{"name":"GW As Speciation 2015-08-11 "},
+				{"name":"Supplemental data for CSM 2016-02-04"},
+				{"name":"Supplemental data for CSM 2016-03-01"}
+			]
+		},
+		{ "name": "Quarterly GW Water Levels" ,
+			"children": [
+				{"name":"1998Q1"},
+				{"name":"1998Q3"},
+				{"name":"1998Q4"},
+				{"name":"1999Q1"},
+				{"name":"1999Q2"},
+				{"name":"1999Q3"},
+				{"name":"1999Q4"},
+				{"name":"2000Q1"},
+				{"name":"2000Q2"},
+				{"name":"2000Q3"},
+				{"name":"2000Q4"},
+				{"name":"2001Q1"},
+				{"name":"2001Q2"},
+				{"name":"2001Q3"},
+				{"name":"2001Q4"},
+				{"name":"2002Q1"},
+				{"name":"2002Q2"},
+				{"name":"2002Q3"},
+				{"name":"2002Q4"},
+				{"name":"2003Q1"},
+				{"name":"2003Q2"},
+				{"name":"2003Q3"},
+				{"name":"2003Q4"},
+				{"name":"2004Q1"},
+				{"name":"2004Q2"},
+				{"name":"2004Q3"},
+				{"name":"2004Q4"},
+				{"name":"2005Q1"},
+				{"name":"2005Q2"},
+				{"name":"2005Q3"},
+				{"name":"2005Q4"},
+				{"name":"2006Q1"},
+				{"name":"2006Q2"},
+				{"name":"2006Q3"},
+				{"name":"2006Q4"},
+				{"name":"2007Q1"},
+				{"name":"2007Q2"},
+				{"name":"2007Q3"},
+				{"name":"2007Q4"},
+				{"name":"2008Q1"},
+				{"name":"2008Q2"},
+				{"name":"2008Q3"},
+				{"name":"2008Q4"},
+				{"name":"2009Q1"},
+				{"name":"2009Q2"},
+				{"name":"2009Q3"},
+				{"name":"2009Q4"},
+				{"name":"2010Q1"},
+				{"name":"2010Q2"},
+				{"name":"2010Q3"},
+				{"name":"2010Q4"},
+				{"name":"2011Q1"},
+				{"name":"2011Q2"},
+				{"name":"2011Q3"},
+				{"name":"2011Q4"},
+				{"name":"2012Q1"},
+				{"name":"2012Q2"},
+				{"name":"2012Q3"},
+				{"name":"2012Q4"},
+				{"name":"2013Q1"},
+				{"name":"2013Q2"},
+				{"name":"2013Q3"},
+				{"name":"2013Q4"},
+				{"name":"2014Q1"},
+				{"name":"2014Q2"},
+				{"name":"2014Q3"},
+				{"name":"2014Q4"},
+				{"name":"2015Q1"},
+				{"name":"2015Q2"},
+				{"name":"2015Q3"},
+				{"name":"2015Q4"},
+				{"name":"2016Q1"},
+				{"name":"2016Q2"},
+				{"name":"2016Q3"},
+				{"name":"2016Q4"},
+				{"name":"2017Q1"},
+				{"name":"2017Q2"},
+				{"name":"2017Q3"},
+				{"name":"2017Q4"},
+				{"name":"2018Q1"},
+				{"name":"2014Q2"},
+				{"name":"2014Q3"},
+				{"name":"2014Q4"},
+				{"name":"2015Q1"},
+				{"name":"2015Q2"},
+				{"name":"2015Q3"},
+				{"name":"2015Q4"},
+				{"name":"2016Q1"},
+				{"name":"2016Q2"},
+				{"name":"2016Q3"}
+			]
+		}
+		]
+	};
+
+// Set the dimensions and margins of the diagram
+var margin = {top: 20, right: 90, bottom: 30, left: 190},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")");
+
+var i = 0,
+    duration = 750,
+    root;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree().size([height, width]);
+
+// Assigns parent, children, height, depth
+root = d3.hierarchy(treeData, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+
+// Collapse after the second level
+root.children.forEach(collapse);
+
+update(root);
+
+// Collapse the node and all it's children
+function collapse(d) {
+  if(d.children) {
+    d._children = d.children
+    d._children.forEach(collapse)
+    d.children = null
+  }
+}
+
+function update(source) {
+
+  // Assigns the x and y position for the nodes
+  var treeData = treemap(root);
+
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d){ d.y = d.depth * 180});
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click);
+
+  // Add Circle for the nodes
+  nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', 1e-6)
+      .style("fill", function(d) {
+          return d._children ? "lightsteelblue" : "#fff";
+      });
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+      .attr("dy", ".35em")
+      .attr("x", function(d) {
+          return d.children || d._children ? -13 : 13;
+      })
+      .attr("text-anchor", function(d) {
+          return d.children || d._children ? "end" : "start";
+      })
+      .text(function(d) { return d.data.name; });
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style("fill", function(d) {
+        return d._children ? "lightsteelblue" : "#fff";
+    })
+    .attr('cursor', 'pointer');
+
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; });
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  // Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  // Toggle children on click.
+  function click(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+    update(d);
+  }
+}
+
+
+</script>
+
+    </body>
+</html>

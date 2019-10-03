@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+	.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+    /* .space {
+      position: absolute;
+    }
+
+    .space div {
+      position: absolute;
+      top: 0;
+      left: 20px;
+    } */
+    </style>
+    <body>
+      <!-- <h1>Hello</h1> -->
+      <script type="text/javascript">
+      //python -m SimpleHTTPServer 8000
+	  //Original
+	  //https://jsfiddle.net/wxh95e9u/
+    
+		//Width and height
+		var w = 800;
+		var h = 800;
+		var padding = 40;
+		// Set up svg element
+
+	
+		var CalculatorMean = function(dataset, value){
+			var total=0;
+			for(var i in dataset) { 
+				total += dataset[i].value;
+			 }
+			 return total;
+		}
+
+		var colorAdjustment = function(dataset, single){
+			var mean  = CalculatorMean(dataset, "value")/dataset.length;
+			//console.log("Mean: " + mean + "Single " + single);
+			if(mean < single){
+				return "red";
+			}
+			return "blue";
+
+		}
+
+		var Scattor = function(dataset)
+		{
+			var svg = d3.select("body")
+			.append("svg")
+			.attr("width", w )
+			.attr("height", h)
+			.style("background", "lightblue");
+			//colorAdjustment(dataset, d);
+			//Create scale functions
+			xScale = d3.scaleTime()
+					.domain([
+						d3.min(dataset, function(d) { return 0; }),//{ return d.date.setFullYear(d.date.getFullYear() - 1); }), //
+						d3.max(dataset, function(d) { return d.date; })//{ return d.date.setFullYear(d.date.getFullYear() + 1); })
+					])
+					.range([padding, w - padding]);
+			yScale = d3.scaleLinear()
+					.domain([
+						d3.min(dataset, function(d) { return 0; }), //return d.value + 5;
+						d3.max(dataset, function(d) { return d.value; })
+					])
+					.range([h - padding, padding]);
+
+			//Define X axis
+			xAxis = d3.axisBottom()
+					.scale(xScale)
+					.ticks(5);
+			//Define Y axis
+			yAxis = d3.axisLeft()
+					.scale(yScale)
+					.ticks(5);
+			
+			// 7. d3's line generator
+			var line = d3.line()
+				.x(function(d, i) { return xScale(d.date); })//{ return xScale(i); }) // set the x values for the line generator
+				.y(function(d) { return yScale(d.value); })//{ return yScale(d.y); }) // set the y values for the line generator 
+				.curve(d3.curveMonotoneX)// apply smoothing to the line
+			
+			// 9. Append the path, bind the data, and call the line generator 
+			svg.append("path")
+				.datum(dataset) // 10. Binds data to the line 
+				.attr("class", "line") // Assign a class for styling 
+				.attr("d", line); // 11. Calls the line generator 
+
+		// Create circles from the data
+		// On mouseover, give them a border (remove on mouseout)
+		var circles = svg.selectAll("circle")
+			.data(dataset)
+			.enter()
+			.append("circle")
+			.attr("r",function(d){ //Controls the Size of the Radius of the Circle 	   //.attr("r", 2);
+				var value = parseInt(d.value)
+          		return 10;//value/5;				  
+       		})
+			.attr("cx", function(d) {
+					return xScale(d.date);
+				})
+			.attr("cy", function(d) {
+				return yScale(d.value);
+			})
+			.attr("fill",function(d){//Controls the Color of the Circle   //.attr("fill","red")
+		
+				return colorAdjustment(dataset, d.value);
+       		})
+			.style("stroke", function(d){//Controls the Color of the Circle   //.attr("fill","red")
+				var note = d.note;
+					if(note != ""){
+						return "Yellow"
+					}
+					return "";
+       		})
+			.style("stroke-width", 2)
+					
+		// HERE
+		// Can I somehow show and hide the text component that is associated with this circle when the circle is hovered, rather than the text itself?
+		.on("mouseover", function(d) {d3.select(this)
+							.style("stroke", "black")
+							.style("stroke-width", 2)
+							.transition()
+							.duration(100)
+							.attr("r",function(d){ //Controls the Size of the Radius of the Circle 	   //.attr("r", 2);
+								var value = parseInt(d.value)
+								return value + 10;				  
+							})
+							.attr('fill', '#ff0000')
+							var tempTexts = texts.filter(function(e){ return e.date === d.date});
+							tempTexts.style("opacity", 1);
+			
+			})
+		.on("mouseout", function(d) {d3.select(this).style("stroke", "none"); texts.style("opacity", 0)
+						
+						circles.style("fill",function(d){//Controls the Color of the Circle   //.attr("fill","red")
+							return colorAdjustment(dataset, d.value);
+						})
+						.attr("r",function(d){ //Controls the Size of the Radius of the Circle 	   //.attr("r", 2);
+							var value = parseInt(d.value)
+							return 10;//value/5;					  
+						})
+						.transition()
+						.duration(100)
+						.style("stroke", function(d){//Controls the Color of the Circle   //.attr("fill","red")
+							var note = d.note;
+								if(note != ""){
+									return "Yellow"
+								}
+								return "";
+						})
+						.style("stroke-width", 2)
+		
+						
+						
+		});
+		
+		// Now add the text for each circle
+		// Same thing with mouseover and mouseout
+		var texts = svg.selectAll("text")
+			.data(dataset)
+			.enter()
+			.append("text")
+				.attr("pointer-events", "none")
+			.attr("text-anchor", "middle")
+				.attr("x", function(d) {
+						return xScale(d.date);
+					})
+				.attr("y", function(d) {
+					return yScale(d.value);
+				})
+			.style("opacity", 0)	
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "30px")
+			.text(function(d) { return d.value + " " + d.note;});
+
+		//Create X axis
+		svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + (h - padding) + ")")
+				.call(xAxis);
+			
+		//Create Y axis
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(" + padding + ",0)")
+			.call(yAxis);
+
+		}
+
+		
+
+
+		var data_csv = function ()
+		{
+			console.log("test");
+			// var parse = d3.timeParse("%m/%d/%y");//d3.time.format("%m/%d/%Y").parse;
+			// function stringToDate(_date,_format,_delimiter)
+			// {
+			// 			var formatLowerCase=_format.toLowerCase();
+			// 			var formatItems=formatLowerCase.split(_delimiter);
+			// 			var dateItems=_date.split(_delimiter);
+			// 			var monthIndex=formatItems.indexOf("mm");
+			// 			var dayIndex=formatItems.indexOf("dd");
+			// 			var yearIndex=formatItems.indexOf("yyyy");
+			// 			var month=parseInt(dateItems[monthIndex]);
+			// 			month-=1;
+			// 			var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+
+			// 			return formatedDate;
+			// }
+		
+			// var myData = null;
+			// var parseTime = d3.timeParse("%m/%d/%y")
+			// d3.csv('AMW-01B_2017.csv')
+			// .then(function(data) {
+			// 	//console.log(data);
+			// 	staton = data.map(function(d)
+			// 	{
+			// 		//each d is one line of the csv file represented as a json object
+			// 		//console.log("d", d)
+			// 		if(d.Location != ""){
+			// 			month = new Date(d.Date)//parse(d.Date).getMonth();
+			// 			//console.log("month:", d.Date, month)
+			// 			//we slice the dollar sign off then convert to a number with the + sign
+			// 			//slicing works like "$216".slice(1) gives you 216, 
+			// 			//you can also give it a range like "$216 asdf".slice(1,4) gives you 216
+			// 			var p = parseFloat(d["Elevation (FT) NAVD88"]);
+			// 			//price = +p.slice(1)
+			// 			//console.log("Value:", p);
+			// 			return {"date": month, "value":p,  "note": d.Comments};
+			// 		}
+			// 	})
+			// 	staton.pop();//Removes last Object in Array
+			// 	console.log(staton);
+			// 	Scattor(staton);
+			// 	// data is now whole data set
+			// 	// draw chart in here!
+			// })
+			
+
+
+
+
+			// //Sample data
+			var dataset = [
+				// {"date":"red", "value":"First set of text", "note":""},
+			];
+
+			function randomDate(start, end) {
+				return new Date(start.getTime() + Math.floor((Math.random() * 10) + 1) * (end.getTime() - start.getTime()));
+			}
+			function alertCrit(value){
+				var cal = parseInt(value);
+					if(cal >= 7){
+						return "ABOVE LIMIT";
+					}
+
+					if(cal < 3){
+						return "BELOW LIMIT";
+					}
+					
+					return "";
+			}
+
+			for(var i = 0; i< 9; i++){
+				//year-month-day
+				var newNumberOne = randomDate(new Date(2000, 0, 1), new Date());
+				var newNumberTwo = Math.floor((Math.random() * 10) + 1);
+				dataset.push({"date": newNumberOne, "value": newNumberTwo, "note":alertCrit(newNumberTwo)});        	
+			}
+			dataset.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return new Date(b.date) - new Date(a.date);
+			});
+	
+			console.log(dataset);
+			Scattor(dataset);
+		}
+		data_csv();
+				
+		////////////////////////////
+		//https://bl.ocks.org/pstuffa/26363646c478b2028d36e7274cedefa6
+
+      </script>
+
+    </body>
+</html>

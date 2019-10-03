@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .space {
+      position: absolute;
+    }
+
+    .space div {
+      position: absolute;
+      top: 0;
+      left: 20px;
+    }
+    </style>
+    <body>
+      <div style="display: inline-block; 
+      width: 20px; 
+      height: 75px; 
+      background-color: teal;"></div>
+      <!-- <h1>Hello</h1> -->
+      <script type="text/javascript">
+      //python -m SimpleHTTPServer 8000
+      var chanecolor = function(){
+        //Code to do something here
+
+      };
+      var dataset = [];
+      for(var i = 0; i< 5; i++){
+        var newNumber = (Math.random() + 1) * 10;
+        dataset.push(newNumber);
+      }
+      console.log(dataset);
+      var w = 500;
+      var h = 50;
+        // d3.select("body").selectAll('p').data(dataset).enter().append('p').text(function(dataset){
+        //   return 'Hello World!!! ' + dataset;
+        // }).style("color", 'red');
+        d3.select('body').append('svg');
+        var svg = d3.select('body').append('svg');
+        //svg.attr("width", 25).attr('height',25);
+        var circle = svg.selectAll("circle").data(dataset).enter().append("circle");
+        
+        circle.attr("cx",function(d,i){
+          return (i*50)+25;
+        })
+        .attr("cy",h/2)
+        .attr("r",function(d){
+          return d;
+        })
+        .attr("fill","red")
+          
+      </script>
+
+    </body>
+</html>

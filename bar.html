@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .space {
+      position: absolute;
+    }
+
+    .space div {
+      position: absolute;
+      top: 0;
+      left: 20px;
+    }
+    </style>
+    <body>
+      <div style="display: inline-block; 
+      width: 20px; 
+      height: 75px; 
+      background-color: teal;"></div>
+      <!-- <h1>Hello</h1> -->
+      <script type="text/javascript">
+      //python -m SimpleHTTPServer 8000
+      var chanecolor = function(){
+        //Code to do something here
+
+      };
+      var dataset = [];
+      for(var i = 0; i< 5; i++){
+        var newNumber = (Math.random() + 1) * 10;
+        dataset.push(newNumber);
+      }
+      console.log(dataset);
+      var w = 500;
+      var h = 100;
+      var barpadding = 3;
+      var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+      svg.selectAll("text").data(dataset).enter().append("text").text(function(d){
+        return Math.round(d * 100) / 100;
+      }).attr("x", function(d,i){
+        return i * (w/dataset.length) + 20;
+      }).attr("y",function(d){
+        return h - (d *4) + 15;
+      })
+
+      svg.selectAll("rect").data(dataset).enter().append("rect").attr("x",function(d,i){
+        return i *(w / dataset.length - barpadding);
+      }).attr("y",function(d){
+        return  h- d;
+      }).attr("width",w / dataset.length - barpadding).attr("height",function(d){
+        return d*3;
+      }).attr("fill","teal");
+
+    
+          
+      </script>
+
+    </body>
+</html>
